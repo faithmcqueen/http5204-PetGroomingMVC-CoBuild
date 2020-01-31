@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using PetGrooming.Data;
 using PetGrooming.Models;
+using PetGrooming.Models.ViewModels; // Added this after creation of UpdatePet.cs - to create dropdown for species when updating the pet record
 using System.Diagnostics;
 
 namespace PetGrooming.Controllers
@@ -117,26 +118,60 @@ namespace PetGrooming.Controllers
             //need information about a particular pet
             Pet selectedpet = db.Pets.SqlQuery("select * from pets where petid = @id", new SqlParameter("@id",id)).FirstOrDefault();
 
-            return View(selectedpet);
+            //Creating a drop down for species when updating the pet....works with Models/ViewModels/UpdatePet.cs
+            //need information about all species
+            string query = "select * from species";
+            List<Species> selectedspecies = db.Species.SqlQuery(query).ToList();
+
+            //create an instance of our ViewModel
+            UpdatePet viewmodel = new UpdatePet();
+            viewmodel.pet = selectedpet;
+            viewmodel.species = selectedspecies;
+
+            return View(viewmodel);
         }
 
+        // Add speciesID to Update so that the drop down will work
+        // Must add speciesID to get species to save
         [HttpPost]
-        public ActionResult Update(string PetName, string PetColor, double PetWeight)
+        public ActionResult Update(int id, string PetName, string PetColor, double PetWeight, string PetNotes, int SpeciesID)
         {
 
             Debug.WriteLine("I am trying to edit a pet's name to "+PetName+" and change the weight to "+PetWeight.ToString());
+            string query = "update pets set PetName=@PetName, Weight=@PetWeight, color=@PetColor, Notes=@PetNotes, SpeciesID=@SpeciesID where PetId=@id";
+
+            //need to hold the above things; create an array that has 5 elements inside of it
+
+            SqlParameter[] parameters = new SqlParameter[6]; //5 pieces of info to pass through
+
+            //match up different parameters
+
+            parameters[0] = new SqlParameter("@PetName",PetName); //match up input with the parameters in the query
+            parameters[1] = new SqlParameter("@PetWeight", PetWeight);
+            parameters[2] = new SqlParameter("@PetColor", PetColor);
+            parameters[3] = new SqlParameter("@PetNotes", PetNotes);
+            parameters[4] = new SqlParameter("@id", id);
+            parameters[5] = new SqlParameter("@SpeciesID", SpeciesID);
+
+            //Next step: run query
+            //Note: use ExecuteSqlCommand for CRUD commands - only NewSqlQuery for select statements
+            db.Database.ExecuteSqlCommand(query, parameters);
 
             //logic for updating the pet in the database goes here
             return RedirectToAction("List");
         }
-      
+        // Delete method
+        public ActionResult Delete(int id)
+        {
+            //Step One: Query
+            string query = "delete from pets where PetID=@id";
+            //Step Two: Parameters & Execute
+            SqlParameter sqlparam = new SqlParameter("@id", id);
+            db.Database.ExecuteSqlCommand(query, sqlparam);
+            //Step Four: return/redirect
+            return RedirectToAction("List");
+        }
 
-        //TODO:
-        //Update
-        //[HttpPost] Update
-        //[HttpPost] Delete
-        //(optional) Delete
-        
 
         protected override void Dispose(bool disposing)
         {

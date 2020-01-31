@@ -1,7 +1,15 @@
-﻿
+﻿@model PetGrooming.Models.Species
 @{
     ViewBag.Title = "Show";
 }
 
-<h2>Show</h2>
+<h2>Species Details: @Model.Name</h2>
+<a class="button" href="/Species/List">Back To List</a>
+<a class="button" href="/Species/Update/@Model.SpeciesID">Update</a>
+<div class="showcontent">
+    <span>Name:</span> @Model.Name
+</div>
 
+<div class="speciespets">
+    <span>LISTED PETS OF THIS SPECIES HERE</span>
+</div>

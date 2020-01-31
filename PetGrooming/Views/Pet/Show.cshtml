@@ -4,8 +4,34 @@
     ViewBag.Title = "Show";
 }
 
-<h2>Show Pet</h2>
+<h2>Details for: @Model.PetName</h2>
+<div>
+    <a class="button" href="/Pet/List">Back to List</a>
+    <a class="button" href="/Pet/Update/@Model.PetID">Update</a>
+    <a class="button" href="/Pet/Delete/@Model.PetID">Delete</a>
+</div>
 
-<div>Name : @Model.PetName</div>
-<div>Weight : @Model.Weight</div>
-<div>Species : @Model.Species.Name</div>
+<div class="col1">
+    <div class="showcontent">
+        <div>Name: @Model.PetName</div>
+        <div>Weight: @Model.Weight</div>
+        <div>Species: @Model.Species.Name</div>
+        <div>Notes: @Model.Notes</div>
+    </div>
+</div>
+
+<div class="col2">
+    <div class="extrainfo">
+        <span>OWNER 1 INFORMATION HERE</span>
+    </div>
+</div>
+
+<div class="col3">
+    <div class="extrainfo">
+        <span>OWNER 2 INFORMATION HERE</span>
+    </div>
+</div>
+
+<div class="extrainfo">
+    <span>UPCOMING BOOKINGS</span>
+</div>

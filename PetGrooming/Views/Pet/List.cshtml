@@ -4,16 +4,28 @@
     ViewBag.Title = "List";
 }
 
-<h2>List of Pets</h2>
+<h2>Pets List</h2>
+<a class="button" href="/Pet/New">Add A New Pet</a>
 
-@{ 
-    foreach(var Pet in Model)
-    {
-        <div>
-            <span><a href="/Pet/Show/@Pet.PetID">@Pet.PetName</a></span>
-            <span>@Pet.Species.Name</span>
-            <span>@Pet.Weight</span>
-            <span><a href="/Pet/Update/@Pet.PetID">Update</a></span>
-        </div>
+<div class="list">
+    @{
+        foreach (var Pet in Model)
+        {
+            <div class="petlist">
+                <div class="col1">
+                    <span class="name"><a href="/Pet/Show/@Pet.PetID">@Pet.PetName</a></span>
+                </div>
+                <div class="col2">
+                    <span class="species">@Pet.Species.Name</span>
+                </div>
+                <div class="col3">
+                    <span class="weight">@Pet.Weight</span>
+                </div>
+                <div class="col4">
+                    <span class="editlist"><a href="/Pet/Update/@Pet.PetID">Update</a></span>
+                    <span class="editlist"><a href="/Pet/Delete/@Pet.PetID">Delete</a></span>
+                </div>
+            </div>
+        }
     }
-}
+</div>

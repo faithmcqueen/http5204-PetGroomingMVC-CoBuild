@@ -41,7 +41,7 @@ namespace PetGrooming.Models
 
         //Representing the Many in (One Groomer to Many Bookings)
         public int GroomerID { get; set; }
-        [ForeignKey("GroomerID")]
+        [ForeignKey("GroomerID")] //syntax known as a Data Anotation -- do not comment out in "using" lines 7/8
         public virtual Groomer Groomer { get; set; }
 
         //Representing the Many in (One Owner to Many Bookings)

@@ -31,6 +31,6 @@ namespace PetGrooming.Models
         */
 
         //Representing the "Many" in (One Booking to many Groomers)
-        public ICollection<GroomBooking> GroomBookings { get; set; }
+        public ICollection<GroomBooking> GroomBookings { get; set; } // *** in booking table specifying the foreign key, in groomer table specificying the "many" ***
     }
 }
